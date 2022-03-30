@@ -8,6 +8,10 @@
 #'
 ui <- function(request) {
   tagList(
+    tags$head(
+      tags$link(rel = "icon", href = "/www/favicons/favicon.ico"),
+      tags$link(rel = "stylesheet", type = "text/css", href = "/www/style.css")
+    ),
     shinydashboard::dashboardPage(
       title = "shinyPOC",
       dashboardHeader(title = "POC Shiny"),

@@ -4,4 +4,6 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-server <- function(input, output, session) {}
+server <- function(input, output, session) {
+  addResourcePath("www", system.file("www", package = "shinyPOC"))
+}

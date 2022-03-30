@@ -35,7 +35,27 @@ ui <- function(request) {
         tabItems(
           tabItem(
             tabName = "analysis",
-            h2("Analyse")
+            h2("Analyse"),
+            fluidRow(
+              column(
+                width=6,
+                boxDataUI('box_data')
+              ),
+              column(
+                width=6,
+                boxPreprocessingUI("box_preprocessing")
+              )
+            ),
+            fluidRow(
+              column(
+                width=6,
+                boxMetricsUI("box_metrics")
+              ),
+              column(
+                width=6,
+                boxMapUI("box_map")
+              )
+            )
           ),
           tabItem(
             tabName="utils",

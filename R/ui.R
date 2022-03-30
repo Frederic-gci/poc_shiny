@@ -49,11 +49,10 @@ ui <- function(request) {
             fluidRow(
               column(
                 width=6,
-                boxMetricsUI("box_metrics")
-              ),
-              column(
-                width=6,
                 boxMapUI("box_map")
+              ),              column(
+                width=6,
+                boxMetricsUI("box_metrics")
               )
             )
           ),

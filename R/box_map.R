@@ -4,7 +4,7 @@ boxMapUI <- function(id){
     title = "Carte interactive",
     width = NULL,
     collapsible = TRUE,
-    status = "info",
+    status = "primary",
     solidHeader = TRUE,
     p("box content ...")
   )

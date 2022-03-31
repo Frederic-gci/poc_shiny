@@ -10,7 +10,7 @@ boxMetricsUI <- function(id){
     h4("Fichiers des données entrantes"),
     verbatimTextOutput(outputId = ns("files")),
 
-    h4("Systèmes de projection des données entrantes"),
+    h4("Données entrantes chargées"),
     verbatimTextOutput(outputId = ns("projections")),
 
     h4("Temporaire - exploration de l'objet 'data'"),
@@ -24,12 +24,21 @@ boxMetricsServer <- function(id, data){
     function(input, output, session){
       output$data = renderPrint(data)
 
-      output$files = renderText(paste(
-        "mnt_file = ", data$mnt_file,
-        "\nhazard_file = ", data$hazard_file,
-        "\nbuilding_file = ", data$building_file))
+      output$files = renderText(
+        paste0(
+          "mnt_file = ", data$mnt_file,
+          "\nhazard_file = ", data$hazard_file,
+          "\nbuilding_file = ", data$building_file
+        )
+      )
 
-      output$projections = renderPrint("TO DO")
+      output$projections = renderText(
+        paste0(
+          "MNT = ", data$mnt_msg,
+          "\nAléa = ", data$hazard_msg,
+          "\nBâtiment = ", data$building_msg
+        )
+      )
 
     }
   )

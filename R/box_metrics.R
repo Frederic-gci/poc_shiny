@@ -11,10 +11,10 @@ boxMetricsUI <- function(id){
     verbatimTextOutput(outputId = ns("files")),
 
     h4("Données entrantes chargées"),
-    verbatimTextOutput(outputId = ns("projections")),
+    verbatimTextOutput(outputId = ns("data_objects")),
 
-    h4("Temporaire - exploration de l'objet 'data'"),
-    verbatimTextOutput(outputId = ns("data")),
+    h4("Données intermédiaires"),
+    verbatimTextOutput(outputId = ns("intermediary"))
   )
 }
 
@@ -22,17 +22,19 @@ boxMetricsServer <- function(id, data){
   moduleServer(
     id,
     function(input, output, session){
-      output$data = renderPrint(data)
 
-      output$files = renderText(
+      output$files = renderText({
+        msg <- "Aucun fichier"
         paste0(
-          "mnt_file = ", data$mnt_file,
-          "\nhazard_file = ", data$hazard_file,
-          "\nbuilding_file = ", data$building_file
+          "Fichier MNT = ", if(length(data$mnt_file)<1) msg else data$mnt_file,
+          "\nFichier d'aléa = ",
+          if(length(data$hazard_file)<1) msg else data$hazard_file,
+          "\nFichier de bâtiments = ",
+          if(length(data$building_file)<1) msg else data$building_file
         )
-      )
+      })
 
-      output$projections = renderText(
+      output$data_objects = renderText(
         paste0(
           "MNT = ", data$mnt_msg,
           "\nAléa = ", data$hazard_msg,
@@ -40,6 +42,7 @@ boxMetricsServer <- function(id, data){
         )
       )
 
+      output$intermediary = renderText("To Do")
     }
   )
 }

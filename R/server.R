@@ -3,6 +3,7 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import leaflet
 #' @noRd
 server <- function(input, output, session) {
   addResourcePath("www", system.file("www", package = "shinyPOC"))
@@ -29,7 +30,7 @@ server <- function(input, output, session) {
 
   boxDataServer("box_data", roots=roots, data=data)
   boxPreprocessingServer("box_preprocessing", data=data)
-  boxMapServer("box_map")
+  boxMapServer("box_map", data=data)
   boxMetricsServer("box_metrics", data=data)
 
   observe({
@@ -80,8 +81,10 @@ server <- function(input, output, session) {
           obj <- NULL
           obj <- terra::vect(data$building_file)
           epsg <- terra::crs(obj, describe=TRUE)$code
+          obj <- project(obj, "epsg:4326")
+          obj <- sf::st_as_sf(obj)
           data$building <- obj
-          data$building_msg <- paste0("Fichier lu. EPSG: ", epsg)
+          data$building_msg <- paste0("Fichier lu. EPSG d'origine: ", epsg)
         },
         error = function(e){
           data$building <- NULL

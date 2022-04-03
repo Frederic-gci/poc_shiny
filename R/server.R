@@ -20,9 +20,9 @@ server <- function(input, output, session) {
     "building_file" = NULL,
     "building" = NULL,
     "building_msg" = NULL,
-    "cov_msg"=
+    "cover_msg"=
       "Aucun fichier de couverture généré",
-    "cov" = NULL,
+    "cover" = NULL,
     "esurf_msg"=
       "Aucun calcul esurf",
     "esurf" = NULL
@@ -81,7 +81,7 @@ server <- function(input, output, session) {
           obj <- NULL
           obj <- terra::vect(data$building_file)
           epsg <- terra::crs(obj, describe=TRUE)$code
-          obj <- project(obj, "epsg:4326")
+          obj <- terra::project(obj, "epsg:4326")
           obj <- sf::st_as_sf(obj)
           data$building <- obj
           data$building_msg <- paste0("Fichier lu. EPSG d'origine: ", epsg)

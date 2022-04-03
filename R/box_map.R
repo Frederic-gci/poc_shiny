@@ -19,7 +19,6 @@ boxMapServer <- function(id, data){
           addTiles() %>%
           setView(lng =-70.79229 , lat =46.22183 , zoom=12)
       )
-
       observe({
         if( is.null(data$building)){
           leafletProxy("map") %>%
@@ -37,6 +36,22 @@ boxMapServer <- function(id, data){
               weight=1)
         }
       })
+
+      observe({
+        if( is.null(data$cover)){
+          leafletProxy("map")%>%
+            clearGroup(group="cover")
+
+        } else {
+          leafletProxy("map") %>%
+            clearGroup("cover") %>%
+            addPolygons(
+              group="cover",
+              data=data$cover,
+              weight=1)
+        }
+      })
+
     }
   )
 }

@@ -35,7 +35,6 @@ ui <- function(request) {
         tabItems(
           tabItem(
             tabName = "analysis",
-            h2("Analyse"),
             fluidRow(
               column(
                 width=6,
@@ -48,10 +47,10 @@ ui <- function(request) {
             ),
             fluidRow(
               column(
-                width=6,
+                width=8,
                 boxMapUI("box_map")
               ),              column(
-                width=6,
+                width=4,
                 boxMetricsUI("box_metrics")
               )
             )

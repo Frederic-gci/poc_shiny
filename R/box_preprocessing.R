@@ -46,7 +46,13 @@ boxPreprocessingServer <- function(id, data){
     function(input, output, session){
 
       observeEvent(input$create_coverage,{
-        showNotification("Bouton 'create_coverage' actionné.", type="message")
+        if( is.null(data$mnt) || is.null(data$hazard)){
+          showNotification("Un MNT et un fichier d'élévation d'eau sont nécessaire pour produire la couverture d'eau.")
+        } else {
+          cover <- createCover(wse=data$hazard, dtm=data$mnt)
+          data$cover <- cover
+          data$cover_msg <- "Couverture générée avec succès."
+        }
       })
       observeEvent(input$compute_esurf,{
         showNotification("Bouton 'compute_esurf' actionné.", type="message")
@@ -54,10 +60,11 @@ boxPreprocessingServer <- function(id, data){
 
       observe({
         cov_status_msg <- reactive({
+          msg <- data$cover_msg
           if( length(data$mnt_file) < 1 || length(data$hazard_file) < 1){
             "Un MNT et un fichier d'aléa sont requis"
           } else {
-            data$cov_msg
+            msg
           }
         })
         updateTextInput(

@@ -38,11 +38,12 @@ ui <- function(request) {
             fluidRow(
               column(
                 width=6,
-                boxDataUI('box_data')
+                boxDataUI('box_data'),
+                boxPreprocessingUI("box_preprocessing")
               ),
               column(
                 width=6,
-                boxPreprocessingUI("box_preprocessing")
+                boxSummaryUI("box_summary")
               )
             ),
             fluidRow(

@@ -31,6 +31,7 @@ server <- function(input, output, session) {
   boxDataServer("box_data", roots=roots, data=data)
   boxPreprocessingServer("box_preprocessing", data=data)
   boxMapServer("box_map", data=data)
+  boxSummaryServer("box_summary", data=data)
   boxMetricsServer("box_metrics", data=data)
 
   observe({

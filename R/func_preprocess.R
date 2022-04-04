@@ -55,13 +55,27 @@ createCover <- function(wse, dtm){
   return(cover)
 }
 
-# computeEsurf <- function(building, cover){
-#   NULL
-# }
+computeEsurf <- function(building, cover){
+
+  showNotification(
+    id="start_esurf", duration=NULL,
+    ui=div(p("Calcul de l'exposition de surface commencée"),p(Sys.time()))
+  )
+
+  building_terra <- terra::vect(building)
+  cover_terra <- terra::vect(cover)
+  esurf <- terra::is.related(building_terra, cover_terra, relation="intersects")
+
+  showNotification(
+    id="end_esurf", duration=NULL,
+    ui=div(p("Calcul de l'exposition de surface terminée"),p(Sys.time()))
+  )
+
+  return(esurf)
+}
 
 wse2depth <- function(dtm, wse){
   if( ! all.equal(terra::ext(wse),terra::ext(dtm)) || ! all.equal(terra::res(wse), terra::res(dtm))){
-
     showNotifcation("Le MNT et le fichier d'aléa doivent être concurrents.", type='error')
   } else {
     concurrent_dtm <- dtm

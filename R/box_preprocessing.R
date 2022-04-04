@@ -55,7 +55,11 @@ boxPreprocessingServer <- function(id, data){
         }
       })
       observeEvent(input$compute_esurf,{
-        showNotification("Bouton 'compute_esurf' actionné.", type="message")
+        if( is.null(data$cover) || is.null(data$building)){
+          showNotification("Des données de couvertures et de bâtiments sont nécessaires", type="error")
+        } else {
+          data$esurf <- computeEsurf(building=data$building, cover=data$cover)
+        }
       })
 
       observe({
@@ -76,7 +80,7 @@ boxPreprocessingServer <- function(id, data){
 
       observe({
         if( ! is.null(data$esurf)){
-          msg <- "Esurf calculé"
+          msg <- "Esurf calculé!"
         } else if( is.null(data$cover) || is.null(data$building) ){
           msg <-"Des données de couverture et de bâtiments sont requises"
         } else {

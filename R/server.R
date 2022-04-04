@@ -67,6 +67,7 @@ server <- function(input, output, session) {
         }
       )
     } else {
+      data$cover <- NULL
       data$hazard <- NULL
       data$hazard_msg <- "Aucune donnée chargée"
     }
@@ -89,6 +90,7 @@ server <- function(input, output, session) {
         }
       )
     } else {
+      data$esurf <- NULL
       data$building <- NULL
       data$building_msg <- "Aucune donnée chargée"
     }

@@ -52,6 +52,22 @@ boxMapServer <- function(id, data){
         }
       })
 
+      observe({
+        if( ! is.null(data$esurf)){
+          col <-rep("green", length(data$esurf))
+          col[data$esurf] <- "red"
+          leafletProxy("map") %>%
+            clearGroup("building") %>%
+            addPolygons(
+              group="building",
+              data=data$building,
+              color=col,
+              fillColor=col,
+              fillOpacity=0.6,
+              weight=1
+            )
+        }
+      })
     }
   )
 }

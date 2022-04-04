@@ -1,10 +1,19 @@
 createCover <- function(wse, dtm){
-  showNotification("Création de couverture commencée")
+  showNotification(
+    id="start", duration=NULL,
+    ui=div(p("Création de couverture commencée"),p(Sys.time()))
+  )
 
-  showNotification("Création d'un fichier de profondeur à partir du MNT et du fichier WSE.", type="message")
+  showNotification(
+    id = "depth", duration=NULL,
+    ui=div(p("Création d'un fichier de profondeur (WSE - MNT)."),p(Sys.time())),
+    type="message")
   depth <- wse2depth(dtm=dtm, wse=wse)
 
-  showNotification("Création d'un polygone à partir du fichier de profondeur.", type="default")
+  showNotification(
+    id="classify", duration=NULL,
+    ui=(div(p("Classification du fichier de profondeur."),p(Sys.time()))),
+    type="message")
   rcl <- matrix(c(0,Inf, 1), ncol=3, byrow=TRUE)
   classified <- terra::classify(
     depth,
@@ -12,15 +21,37 @@ createCover <- function(wse, dtm){
     include.lowest=FALSE,
     right=TRUE,
     othersNA=TRUE)
+
+  showNotification(
+    id="polygonize", duration=NULL,
+    ui=div(p("Transformation en polygone."),p(Sys.time())),
+    type="message"
+  )
   cover <- terra::as.polygons(classified)
+
+  showNotification(
+    id="reproject", duration=NULL,
+    ui=div(p("Reprojection en 'Web Mercator'"),p(Sys.time())),
+    type="message"
+  )
   cover <- terra::project(cover, 'epsg:4326')
   cover <- sf::st_as_sf(cover)
 
-  showNotification("Simplification du polygone", type="default")
+  showNotification(
+    id="simplify", duration=NULL,
+    ui=div(p("Simplification du polygone"), p(Sys.time())),
+    type="message"
+  )
   cover <- rmapshaper::ms_simplify(cover)
 
-  showNotification("Création de la couverture terminée", type="message")
+  showNotification(
+    id="end", duration=NULL,
+    ui=div(p("Création de la couverture terminée"),p(Sys.time()))
+  )
 
+  # for(id in c("start", "depth","classify","polygonize", "reproject","simplify", "end")){
+  #   removeNotification(id)
+  # }
   return(cover)
 }
 

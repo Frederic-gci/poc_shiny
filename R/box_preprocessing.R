@@ -4,6 +4,7 @@ boxPreprocessingUI <- function(id){
     title = "Prétraitement",
     width = NULL,
     collapsible = TRUE,
+    collapsed = TRUE,
     status = "primary",
     solidHeader = TRUE,
 
@@ -12,7 +13,7 @@ boxPreprocessingUI <- function(id){
 
     div(class="input-group form-group",
       tags$input(
-        id=ns("coverage_status"),
+        id=ns("cover_status"),
         type="text", readonly="readonly",
         placeholder="Requiert un MNT et un fichier d'aléa",
         class="form-control"
@@ -47,11 +48,10 @@ boxPreprocessingServer <- function(id, data){
 
       observeEvent(input$create_coverage,{
         if( is.null(data$mnt) || is.null(data$hazard)){
-          showNotification("Un MNT et un fichier d'élévation d'eau sont nécessaire pour produire la couverture d'eau.")
+          showNotification("Un MNT et un fichier d'élévation d'eau sont nécessaire pour produire la couverture d'eau.", type="error")
         } else {
           cover <- createCover(wse=data$hazard, dtm=data$mnt)
           data$cover <- cover
-          data$cover_msg <- "Couverture générée avec succès."
         }
       })
       observeEvent(input$compute_esurf,{
@@ -59,34 +59,36 @@ boxPreprocessingServer <- function(id, data){
       })
 
       observe({
-        cov_status_msg <- reactive({
-          msg <- data$cover_msg
-          if( length(data$mnt_file) < 1 || length(data$hazard_file) < 1){
-            "Un MNT et un fichier d'aléa sont requis"
-          } else {
-            msg
-          }
-        })
-        updateTextInput(
-          session=session,
-          inputId="coverage_status",
-          value=cov_status_msg()
-        )
+        if( ! is.null(data$cover)){
+          msg <- "Couverture générée!"
+        } else if( length(data$mnt_file) < 1 || length(data$hazard_file) < 1){
+          msg <- "Un MNT et un fichier d'aléa sont requis"
+        } else {
+          msg <- "Aucun fichier de couverture généré"
+        }
 
-        esurf_status_msg <- reactive({
-          if( is.null(data$cov) || length(data$building_file) < 1 ){
-            "Un fichier de bâtiment et un polygone de couverture sont requis"
-          } else {
-            data$esurf_msg
-          }
-        })
         updateTextInput(
           session=session,
-          inputId="esurf_status",
-          value=esurf_status_msg()
+          inputId="cover_status",
+          value=msg
         )
       })
 
+      observe({
+        if( ! is.null(data$esurf)){
+          msg <- "Esurf calculé"
+        } else if( is.null(data$cover) || is.null(data$building) ){
+          msg <-"Des données de couverture et de bâtiments sont requises"
+        } else {
+          msg <- "Aucune donnée calculée"
+        }
+
+        updateTextInput(
+          session=session,
+          inputId="esurf_status",
+          value=msg
+        )
+      })
     }
   )
 }

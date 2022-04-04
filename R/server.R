@@ -20,11 +20,7 @@ server <- function(input, output, session) {
     "building_file" = NULL,
     "building" = NULL,
     "building_msg" = NULL,
-    "cover_msg"=
-      "Aucun fichier de couverture généré",
     "cover" = NULL,
-    "esurf_msg"=
-      "Aucun calcul esurf",
     "esurf" = NULL
   )
 
@@ -43,7 +39,7 @@ server <- function(input, output, session) {
           obj <- terra::rast(data$mnt_file)
           epsg <- terra::crs(obj, describe=TRUE)$code
           data$mnt <- obj
-          data$mnt_msg <- paste0("Fichier lu. EPSG: ", epsg)
+          data$mnt_msg <- paste0("Fichier lu. EPSG initial: ", epsg)
         },
         error = function(e){
           data$mnt <- NULL
@@ -63,7 +59,7 @@ server <- function(input, output, session) {
           obj <- terra::rast(data$hazard_file)
           epsg <- terra::crs(obj, describe=TRUE)$code
           data$hazard <- obj
-          data$hazard_msg <- paste0("Fichier lu. EPSG: ", epsg)
+          data$hazard_msg <- paste0("Fichier lu. EPSG initial: ", epsg)
         },
         error = function(e){
           data$hazard <- NULL
@@ -85,7 +81,7 @@ server <- function(input, output, session) {
           obj <- terra::project(obj, "epsg:4326")
           obj <- sf::st_as_sf(obj)
           data$building <- obj
-          data$building_msg <- paste0("Fichier lu. EPSG d'origine: ", epsg)
+          data$building_msg <- paste0("Fichier lu. EPSG initial: ", epsg)
         },
         error = function(e){
           data$building <- NULL

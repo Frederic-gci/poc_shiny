@@ -1,6 +1,7 @@
 boxSummaryUI <- function(id){
   ns <- NS(id)
   box(
+    id = ns("box_id"), ## to manipulate box by shinyjs
     title = "Sommaire",
     width = NULL,
     collapsible = TRUE,

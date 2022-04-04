@@ -1,6 +1,7 @@
 boxMapUI <- function(id){
   ns <- NS(id)
   box(
+    id = ns("box_id"), ## to manipulate box by shinyjs
     title = "Carte interactive",
     width = NULL,
     collapsible = TRUE,
@@ -17,7 +18,7 @@ boxMapServer <- function(id, data){
       output$map <- leaflet::renderLeaflet(
         leaflet() %>%
           addTiles() %>%
-          setView(lng =-70.79229 , lat =46.22183 , zoom=12)
+          setView(lng =-71.46 , lat =47.07 , zoom=6)
       )
       observe({
         if( is.null(data$building)){
@@ -25,6 +26,8 @@ boxMapServer <- function(id, data){
             clearGroup(group="building")
 
         } else {
+          ext <- terra::ext(data$building)@ptr$vector
+
           leafletProxy("map") %>%
             clearGroup(group="building") %>%
             addPolygons(
@@ -33,7 +36,8 @@ boxMapServer <- function(id, data){
               color="black",
               fillColor= "black",
               fillOpacity=0.6,
-              weight=1)
+              weight=1)  %>%
+            flyToBounds(lng1=ext[1], lng2=ext[2], lat1=ext[3], lat2=ext[4])
         }
       })
 

@@ -50,7 +50,9 @@ server <- function(input, output, session) {
       data$mnt <- NULL
       data$mnt_msg <- "Aucune donnée chargée"
     }
+  })
 
+  observe({
     ## Loading hazard
     if( length(data$hazard_file) >= 1 ){
       tryCatch(
@@ -71,7 +73,9 @@ server <- function(input, output, session) {
       data$hazard <- NULL
       data$hazard_msg <- "Aucune donnée chargée"
     }
+  })
 
+  observe({
     ## Loading building
     if( length(data$building_file) >= 1 ){
       tryCatch(
@@ -94,6 +98,19 @@ server <- function(input, output, session) {
       data$building <- NULL
       data$building_msg <- "Aucune donnée chargée"
     }
+  })
 
+  observe({
+    if( length(data$building_file >= 1) &&
+        length(data$mnt_file >=1 ) &&
+        length(data$hazard_file >=1 )){
+      shinyjs::js$collapse(NS("box_data", "box_id"))
+      shinyjs::js$collapse(NS("box_preprocessing", "box_id"))
+    }
+  })
+  observe({
+    if( ! is.null(data$cover) && ! is.null(data$esurf)){
+      shinyjs::js$collapse(NS("box_preprocessing", "box_id"))
+    }
   })
 }

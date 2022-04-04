@@ -32,6 +32,8 @@ ui <- function(request) {
         )
       ),
       dashboardBody(
+        shinyjs::useShinyjs(),
+        shinyjs::extendShinyjs(script = "/www/shinyjs.js", functions = c("collapse")),
         tabItems(
           tabItem(
             tabName = "analysis",

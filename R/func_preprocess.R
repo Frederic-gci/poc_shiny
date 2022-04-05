@@ -76,7 +76,7 @@ computeEsurf <- function(building, cover){
 
 wse2depth <- function(dtm, wse){
   if( ! all.equal(terra::ext(wse),terra::ext(dtm)) || ! all.equal(terra::res(wse), terra::res(dtm))){
-    showNotifcation("Le MNT et le fichier d'aléa doivent être concurrents.", type='error')
+    showNotification("Le MNT et le fichier d'aléa doivent être concurrents.", type='error')
   } else {
     concurrent_dtm <- dtm
   }

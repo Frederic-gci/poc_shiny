@@ -42,11 +42,12 @@ boxMetricsServer <- function(id, data){
           esurf_class <- rep("Non exposé", length(data$esurf))
           esurf_class[ data$esurf ] <- "Exposé"
           esurf_df <- data.frame(
-            "Récurrence" = rep(1, length(data$esurf)),
-            "Exposition"=esurf_class)
+            "recurrence" = rep(1, length(data$esurf)),
+            "exposition"=esurf_class)
 
-          ggplot2::ggplot(data=esurf_df, ggplot2::aes(y="Récurrence", fill=Exposition)) +
-            ggplot2::geom_bar()
+          ggplot2::ggplot(data=esurf_df, ggplot2::aes(y=recurrence, fill=exposition)) +
+            ggplot2::geom_bar() + ggplot2::xlab("Nombre") + ggplot2::ylab("Scénario") +
+            ggplot2::scale_y_discrete(breaks=c(0,1,2))
         })
       })
     }

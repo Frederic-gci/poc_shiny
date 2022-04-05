@@ -14,7 +14,7 @@ ui <- function(request) {
     ),
     shinydashboard::dashboardPage(
       title = "shinyPOC",
-      dashboardHeader(title = "R + Shiny"),
+      dashboardHeader(title = "shiny pour oracle"),
       dashboardSidebar(
         sidebarMenu(
           menuItem("Analyse",

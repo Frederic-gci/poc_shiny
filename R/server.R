@@ -6,7 +6,7 @@
 #' @import leaflet
 #' @noRd
 server <- function(input, output, session) {
-  addResourcePath("www", system.file("www", package = "shinyPOC"))
+  addResourcePath("www", system.file("www", package = "shiny4oracle"))
   roots <- c(Home = fs::path_home(), shinyFiles::getVolumes()())
 
   # Reactive values:

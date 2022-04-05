@@ -1,4 +1,4 @@
-Package: shinyPOC
+Package: shiny4oracle
 Title: Preuve de concept (POC) pour Oracle1 mode projet avec Shiny et R
 Version: 0.0.0.9000
 Authors@R: 

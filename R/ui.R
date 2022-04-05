@@ -50,10 +50,13 @@ ui <- function(request) {
             ),
             fluidRow(
               column(
-                width=8,
+                width=12,
                 boxMapUI("box_map")
-              ),              column(
-                width=4,
+              )
+            ),
+            fluidRow(
+              column(
+                width=6,
                 boxMetricsUI("box_metrics")
               )
             )
